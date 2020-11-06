@@ -31,7 +31,7 @@ jobs:
         run: ruby generate_dockerfile.rb
       
       - name: Build Image on Linux
-        if: contains(matrix.os, 'linux')
+        if: "!contains(matrix.os, 'windows')"
         run: docker build -t danysk/$JDK_TYPE-$JDK_VERSION .
 
       - name: Build Image on Windows
