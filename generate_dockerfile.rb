@@ -6,7 +6,7 @@ end
 
 jdk_version = ENV['JDK_VERSION'] || fail('JDK_VERSION environment variable unset')
 jdk_type = ENV['JDK_TYPE']
-image_name = "adoptopenjdk/#{jdk_version}-jdk-#{jdk_type}"
+image_name = "adoptopenjdk:#{jdk_version}-jdk-#{jdk_type}"
 from = "FROM #{image_name}"
 os = ENV["OS"] || fail("OS environment variable unset")
 prepare =
