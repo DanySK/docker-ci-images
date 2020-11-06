@@ -14,8 +14,9 @@ jobs:
     runs-on: ${{ matrix.os }}-latest
     env:
       OS: ${{ matrix.os }}
-      JDK_VERSION: ${{ matrix.version || 'latest' }}
+      JDK_VERSION: ${{ matrix.version }}
       JDK_TYPE: ${{ matrix.vm }}
+      IMAGE_NAME: danysk/${{ matrix.vm }}-${{ matrix.version || 'latest' }}
     steps:
 
       - name: Install Ruby
@@ -32,8 +33,8 @@ jobs:
       
       - name: Build Image on Linux
         if: "!contains(matrix.os, 'windows')"
-        run: docker build -t danysk/$JDK_TYPE-$JDK_VERSION .
+        run: docker build -t $IMAGE_NAME .
 
       - name: Build Image on Windows
         if: contains(matrix.os, 'windows')
-        run: C:\msys64\usr\bin\bash -c "docker build -t danysk/$JDK_TYPE-$JDK_VERSION ."
+        run: C:\msys64\usr\bin\bash -c "docker build -t $IMAGE_NAME ."
