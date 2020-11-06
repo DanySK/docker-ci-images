@@ -20,7 +20,7 @@ prepare =
         install_git = 'choco install git'
         [install_choco, install_git]
     else
-        ['apt-get update', 'apt-get install git -y']
+        ['apt-get update', 'apt-get --no-install-recommends install git -y']
     end
 prepare = prepare.map { |it| "RUN #{it}" }.join("\n")
 dockerfile = multiline(%{
