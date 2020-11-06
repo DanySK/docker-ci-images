@@ -5,9 +5,9 @@ def multiline(text)
 end
 
 jdk_version = ENV['JDK_VERSION'] || fail('JDK_VERSION environment variable unset')
-jdk_type = ENV['JDK_TYPE']
-image_name = "adoptopenjdk:#{jdk_version}-jdk-#{jdk_type}"
-from = "FROM #{image_name}"
+jdk_type = ENV['JDK_TYPE'] || fail('JDK_TYPE environment variable unset')
+image_name = jdk_version.empty? ? jdk_type : "#{jdk_version}-jdk-#{jdk_type}"
+from = "FROM adoptopenjdk:#{image_name}"
 os = ENV["OS"] || fail("OS environment variable unset")
 prepare =
     if os.start_with?("windows") then
