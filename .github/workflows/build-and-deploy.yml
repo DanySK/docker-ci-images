@@ -30,5 +30,10 @@ jobs:
       - name: Generate Dockerfile          
         run: ruby generate_dockerfile.rb
       
-      - name: Build Image
-        run: docker build -t danysk/${{ matrix.vm }}-${{ matrix.version }} .
+      - name: Build Image on Linux
+        if: contains(matrix.os, 'linux')
+        run: docker build -t danysk/$JDK_TYPE-$JDK_VERSION .
+
+      - name: Build Image on Windows
+        if: contains(matrix.os, 'windows')
+        run: C:\msys64\usr\bin\bash -c "docker build -t danysk/$JDK_TYPE-$JDK_VERSION ."
