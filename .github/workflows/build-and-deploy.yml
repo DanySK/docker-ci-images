@@ -33,8 +33,11 @@ jobs:
       
       - name: Build Image on Linux
         if: "!contains(matrix.os, 'windows')"
-        run: docker build -t $IMAGE_NAME .
+        run: ./build.sh
 
       - name: Build Image on Windows
         if: contains(matrix.os, 'windows')
-        run: docker build -t %IMAGE_NAME% .
+        run: |
+          # add msys2 to the path so the correct exes are used
+          $env:PATH="C:\msys64\usr\bin;${env:PATH}"
+          C:\msys64\usr\bin\bash -c "./build.sh"
