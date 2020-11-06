@@ -5,11 +5,12 @@ def multiline(text)
 end
 
 jdk_version = ENV['JDK_VERSION'] || fail('JDK_VERSION environment variable unset')
-image_name = "adoptopenjdk/#{jdk_version}-jdk"
+jdk_type = ENV['JDK_TYPE']
+image_name = "adoptopenjdk/#{jdk_version}-jdk-#{jdk_type}"
 from = "FROM #{image_name}"
 os = ENV["OS"] || fail("OS environment variable unset")
 prepare =
-    if os == "windows" then
+    if os.start_with?("windows") then
         install_choco = 
             'Set-ExecutionPolicy Bypass -Scope Process -Force;'\
             '[System.Net.ServicePointManager]::SecurityProtocol = '\
