@@ -17,7 +17,7 @@ jobs:
       OS: ${{ matrix.os }}
       JDK_VERSION: ${{ matrix.version }}
       JDK_TYPE: ${{ matrix.vm }}
-      IMAGE_NAME: danysk/${{ matrix.vm }}-${{ matrix.version || 'latest' }}
+      IMAGE_NAME: danysk/${{ matrix.vm }}-${{ matrix.version || 'latest' }}-${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,3 +38,23 @@ jobs:
           # add msys2 to the path so the correct exes are used
           $env:PATH="C:\msys64\usr\bin;${env:PATH}"
           C:\msys64\usr\bin\bash -c "./build.sh"
+  manifest:
+    needs: build
+    strategy:
+      matrix:
+        version: [8, 11, '']
+        vm: [hotspot, openj9]
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: danysk/${{ matrix.vm }}-${{ matrix.version || 'latest' }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DOCKER_USERNAME: danysk
+    steps:
+      - name: Enable Docker manifest
+        run: 'echo { \"experimental\": \"enabled\" } > ~/.docker/config.json'
+      - name: Create manifest
+        run: docker manifest create $IMAGE_NAME --amend $IMAGE_NAME-windows $IMAGE_NAME-ubuntu
+      - name: Login on docker hub
+        run: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+      - name: Push manifest
+        run: docker manifest push $IMAGE_NAME
