@@ -24,9 +24,13 @@ jobs:
         run: ruby generate_dockerfile.rb
       - name: Build Image on Linux
         if: "!contains(matrix.os, 'windows')"
+        env:
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: ./build.sh
       - name: Build Image on Windows
         if: contains(matrix.os, 'windows')
+        env:
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           # add msys2 to the path so the correct exes are used
           $env:PATH="C:\msys64\usr\bin;${env:PATH}"
