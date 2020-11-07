@@ -17,7 +17,7 @@ prepare =
             '[System.Net.ServicePointManager]::SecurityProtocol -bor 3072; '\
             'iex ((New-Object System.Net.WebClient).DownloadString('\
             "'https://chocolatey.org/install.ps1'))"
-        install_git = 'choco install git --no-progress'
+        install_git = 'choco install git --no-progress -y --params="\'/GitAndUnixToolsOnPath /NoAutoCrlf\'"'
         [install_choco, install_git]
     else
         ['apt-get update', 'apt-get --no-install-recommends install git -y']
