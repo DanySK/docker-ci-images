@@ -18,23 +18,13 @@ jobs:
       JDK_TYPE: ${{ matrix.vm }}
       IMAGE_NAME: danysk/${{ matrix.vm }}-${{ matrix.version || 'latest' }}
     steps:
-
-      - name: Install Ruby
-        if: false 
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install ruby --no-progress
-
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Generate Dockerfile          
         run: ruby generate_dockerfile.rb
-      
       - name: Build Image on Linux
         if: "!contains(matrix.os, 'windows')"
         run: ./build.sh
-
       - name: Build Image on Windows
         if: contains(matrix.os, 'windows')
         run: |
