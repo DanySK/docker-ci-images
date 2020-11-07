@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 docker build -t $IMAGE_NAME .
-docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 docker push $IMAGE_NAME
