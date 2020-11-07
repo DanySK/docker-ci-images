@@ -20,7 +20,7 @@ jobs:
     steps:
 
       - name: Install Ruby
-        if: contains(matrix.os, 'windows') 
+        if: false 
         uses: crazy-max/ghaction-chocolatey@v1
         with:
           args: install ruby --no-progress
