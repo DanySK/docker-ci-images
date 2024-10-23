@@ -20,7 +20,7 @@ jobs:
       IMAGE_NAME: danysk/${{ matrix.vm }}-${{ matrix.version || 'latest' }}-${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Generate Dockerfile
         run: ruby generate_dockerfile.rb
       - name: Build Image on Linux
